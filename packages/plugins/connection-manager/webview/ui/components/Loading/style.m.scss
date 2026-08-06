@@ -13,9 +13,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    background: var(--sqltools-backdrop-bg, rgba(15, 15, 15, 0.45));
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
+    background: var(--vscode-editor-background, #1e1e1e);
     overflow: hidden;
     width: 100vw;
     height: 100vh;

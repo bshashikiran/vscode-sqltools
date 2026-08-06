@@ -43,6 +43,44 @@ import useCurrentResult from '../../hooks/useCurrentResult';
 import useContextAction from '../../hooks/useContextAction';
 import useResultsContext from '../../hooks/useResultsContext';
 import SqlSummary from '../SqlSummary';
+import FooterActions from '../FooterActions';
+
+const QuerySuccess = ({ messages }: { messages: any[] }) => {
+  const messageText = messages && messages.length 
+    ? messages.map(m => (m as any).message || m.toString()).join('\n')
+    : 'Query executed successfully.';
+
+  return (
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
+      background: 'var(--vscode-editor-background, #1e1e1e)',
+      color: 'var(--vscode-foreground, #cccccc)',
+      fontFamily: 'var(--vscode-font-family, inherit)',
+      fontSize: '13px',
+      flex: 1
+    }}>
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        padding: '24px',
+        flex: 1,
+        justifyContent: 'center',
+        flexDirection: 'column',
+        textAlign: 'center'
+      }}>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--vscode-charts-green, #4caf50)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '16px', flexShrink: 0 }}>
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.4', fontWeight: 500 }}>
+          {messageText}
+        </div>
+      </div>
+      <FooterActions />
+    </div>
+  );
+};
 
 const Table = ({ setContextState }) => {
   const [filters, setFilters] = useState<(Filter & { regex?: RegExp })[]>([]);
@@ -319,32 +357,35 @@ const Table = ({ setContextState }) => {
           </div>
         )}
         {error && <QueryError messages={messages} />}
-        {!error && <Grid rows={editedRows} columns={columnObjNames} rootComponent={GridRoot}>
-          <DataTypeProvider for={columnNames} availableFilterOperations={availableFilterOperations} />
-          <SortingState />
-          <IntegratedSorting />
-          <FilteringState filters={filters} onFiltersChange={changeFilters} />
-          <IntegratedFiltering columnExtensions={columnExtensions} />
-          <PagingState pageSize={pageSize ?? 50} {...pagingProps} />
-          <CustomPaging totalCount={total ?? rows.length} />
-          <SelectionState selection={selection} onSelectionChange={setSelection} />
-          <VirtualTable cellComponent={TableCell} />
-          <TableColumnResizing columnWidths={columnWidths} onColumnWidthsChange={updateWidths} />
-          <TableHeaderRow showSortingControls sortLabelComponent={SortLabel} />
-          <TableSelection
-            selectByRowClick
-            highlightRow
-            showSelectionColumn={false}
-            rowComponent={TableRow.Selected}
-          />
-          <TableFilterRow
-            cellComponent={TableFilterRowCell}
-            showFilterSelector
-            iconComponent={FilterIcon}
-            messages={{ regex: 'RegEx' } as any}
-          />
-          {<PagingPanel containerComponent={PagingPanelContainer(showPagination)} />}
-        </Grid>}
+        {!error && (rows.length === 0 || cols.length === 0) && <QuerySuccess messages={messages} />}
+        {!error && rows.length > 0 && cols.length > 0 && (
+          <Grid rows={editedRows} columns={columnObjNames} rootComponent={GridRoot}>
+            <DataTypeProvider for={columnNames} availableFilterOperations={availableFilterOperations} />
+            <SortingState />
+            <IntegratedSorting />
+            <FilteringState filters={filters} onFiltersChange={changeFilters} />
+            <IntegratedFiltering columnExtensions={columnExtensions} />
+            <PagingState pageSize={pageSize ?? 50} {...pagingProps} />
+            <CustomPaging totalCount={total ?? rows.length} />
+            <SelectionState selection={selection} onSelectionChange={setSelection} />
+            <VirtualTable cellComponent={TableCell} />
+            <TableColumnResizing columnWidths={columnWidths} onColumnWidthsChange={updateWidths} />
+            <TableHeaderRow showSortingControls sortLabelComponent={SortLabel} />
+            <TableSelection
+              selectByRowClick
+              highlightRow
+              showSelectionColumn={false}
+              rowComponent={TableRow.Selected}
+            />
+            <TableFilterRow
+              cellComponent={TableFilterRowCell}
+              showFilterSelector
+              iconComponent={FilterIcon}
+              messages={{ regex: 'RegEx' } as any}
+            />
+            {<PagingPanel containerComponent={PagingPanelContainer(showPagination)} />}
+          </Grid>
+        )}
       </Paper>
     </MenuProvider>
   );

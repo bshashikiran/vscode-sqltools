@@ -1,3 +1,19 @@
 .container {
   flex-grow: 0;
+
+  :global {
+    .MuiTab-root {
+      outline: none !important;
+      border: none !important;
+      border-left: none !important;
+      border-right: none !important;
+      
+      &:focus, &:active, &.Mui-selected {
+        outline: none !important;
+        box-shadow: none !important;
+        border-left: none !important;
+        border-right: none !important;
+      }
+    }
+  }
 }
