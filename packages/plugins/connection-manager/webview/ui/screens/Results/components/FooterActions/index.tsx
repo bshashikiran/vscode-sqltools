@@ -141,27 +141,27 @@ const FooterActions = () => {
     <>
       <div className={styles.left}>
         <Button onClick={openMessagesConsole}>Console</Button>
-        <Button onClick={reRunQuery}>Re-Run Query TEST</Button>
+        <Button onClick={reRunQuery}>Re-Run Query</Button>
         <Button onClick={exportResults}>Export</Button>
         <Button onClick={openResults}>Open</Button>
         
-        {isEditable && (
+        {isEditable && pendingEditsCount > 0 && (
           <>
             <Button
               onClick={handleSave}
-              disabled={pendingEditsCount === 0 || saving}
+              disabled={saving}
             >
               Save Changes
             </Button>
             <Button
               onClick={handleDiscard}
-              disabled={pendingEditsCount === 0 || saving}
+              disabled={saving}
             >
               Discard Changes
             </Button>
             <Button
               onClick={handleCopyScript}
-              disabled={pendingEditsCount === 0 || saving}
+              disabled={saving}
               title="COPY SQL SCRIPT"
               className={styles.copyBtn}
             >
@@ -170,11 +170,9 @@ const FooterActions = () => {
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
               </svg>
             </Button>
-            {pendingEditsCount > 0 && (
-              <span className={styles.pendingText}>
-                {pendingEditsCount} pending edit(s)
-              </span>
-            )}
+            <span className={styles.pendingText}>
+              {pendingEditsCount} pending edit(s)
+            </span>
             {saving && <div className={styles.spinner} />}
           </>
         )}

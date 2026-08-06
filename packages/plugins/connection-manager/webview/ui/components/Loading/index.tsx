@@ -1,11 +1,15 @@
 import React from 'react';
-import { CircularProgress } from '@material-ui/core';
 import style from './style.m.scss';
 
-export default () => (
-    <div className={style.loading}>
-      <div>
-        <CircularProgress size='100px'/>
+const Loading = () => (
+  <div className={style.loading}>
+    <div className={style.backdrop}>
+      <div className={style.loaderContainer}>
+        <div className={style.spinner} />
+        <div className={style.text}>Loading Results...</div>
       </div>
     </div>
+  </div>
 );
+
+export default Loading;
