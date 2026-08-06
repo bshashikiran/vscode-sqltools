@@ -29,10 +29,13 @@ const SqlSummary = () => {
     <div className={styles.sqlSummaryContainer}>
       <div className={styles.header} onClick={toggleExpand}>
         <div className={styles.headerLeft}>
-          <span className={styles.sqlTag}>SQL</span>
-          <span className={styles.previewText} title="Click to view full SQL statement">
-            {shortSnippet}
-          </span>
+          {!expanded ? (
+            <span className={styles.previewText} title="Click to view full SQL statement">
+              {shortSnippet}
+            </span>
+          ) : (
+            <span className={styles.titleText}>Executed Query</span>
+          )}
         </div>
         <button className={styles.toggleBtn} onClick={(e) => { e.stopPropagation(); toggleExpand(); }}>
           <span className={`${styles.arrow} ${expanded ? styles.arrowUp : styles.arrowDown}`} />
