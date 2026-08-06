@@ -1,21 +1,21 @@
 {
-  "name": "sqltools-driver-pg",
-  "displayName": "SQLTools PostgreSQL/Cockroach Driver",
-  "description": "SQLTools PostgreSQL/Cockroach Driver",
+  "name": "vscode-datagrip-driver-pg",
+  "displayName": "DataGrip PostgreSQL/Cockroach Driver",
+  "description": "DataGrip PostgreSQL/Cockroach Driver",
   "version": "0.5.9-SNAPSHOT",
   "engines": {
     "vscode": "^1.78.0"
   },
-  "publisher": "mtxr",
+  "publisher": "bshashikiran",
   "license": "MIT",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/mtxr/vscode-sqltools.git",
+    "url": "https://github.com/bshashikiran/vscode-sqltools.git",
     "directory": "packages/drivers.pg"
   },
   "bugs": {
-    "url": "https://github.com/mtxr/vscode-sqltools/labels/pg"
+    "url": "https://github.com/bshashikiran/vscode-sqltools/issues"
   },
   "keywords": [
     "sqltools-driver",
@@ -37,7 +37,7 @@
     "Other"
   ],
   "extensionDependencies": [
-    "mtxr.sqltools"
+    "bshashikiran.vscode-datagrip"
   ],
   "activationEvents": [
     "*",

@@ -1,21 +1,21 @@
 {
-  "name": "sqltools-driver-mysql",
-  "displayName": "SQLTools MySQL/MariaDB/TiDB",
-  "description": "SQLTools MySQL/MariaDB/TiDB",
+  "name": "vscode-datagrip-driver-mysql",
+  "displayName": "DataGrip MySQL/MariaDB/TiDB",
+  "description": "DataGrip MySQL/MariaDB/TiDB",
   "version": "0.6.8-SNAPSHOT",
   "engines": {
     "vscode": "^1.78.0"
   },
-  "publisher": "mtxr",
+  "publisher": "bshashikiran",
   "license": "MIT",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/mtxr/vscode-sqltools.git",
+    "url": "https://github.com/bshashikiran/vscode-sqltools.git",
     "directory": "packages/drivers.mysql"
   },
   "bugs": {
-    "url": "https://github.com/mtxr/vscode-sqltools/labels/mysql"
+    "url": "https://github.com/bshashikiran/vscode-sqltools/issues"
   },
   "keywords": [
     "sqltools-driver",
@@ -35,7 +35,7 @@
     "Other"
   ],
   "extensionDependencies": [
-    "mtxr.sqltools"
+    "bshashikiran.vscode-datagrip"
   ],
   "activationEvents": [
     "*",

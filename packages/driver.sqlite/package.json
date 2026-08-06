@@ -1,21 +1,21 @@
 {
-  "name": "sqltools-driver-sqlite",
-  "displayName": "SQLTools SQLite",
-  "description": "SQLTools SQLite",
+  "name": "vscode-datagrip-driver-sqlite",
+  "displayName": "DataGrip SQLite",
+  "description": "DataGrip SQLite",
   "version": "0.5.5-SNAPSHOT",
   "engines": {
     "vscode": "^1.78.0"
   },
-  "publisher": "mtxr",
+  "publisher": "bshashikiran",
   "license": "MIT",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/mtxr/vscode-sqltools.git",
+    "url": "https://github.com/bshashikiran/vscode-sqltools.git",
     "directory": "packages/drivers.sqlite"
   },
   "bugs": {
-    "url": "https://github.com/mtxr/vscode-sqltools/labels/sqlite"
+    "url": "https://github.com/bshashikiran/vscode-sqltools/issues"
   },
   "keywords": [
     "sqltools-driver",
@@ -33,7 +33,7 @@
     "Other"
   ],
   "extensionDependencies": [
-    "mtxr.sqltools"
+    "bshashikiran.vscode-datagrip"
   ],
   "activationEvents": [
     "*",

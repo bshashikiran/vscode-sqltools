@@ -6,7 +6,7 @@ const { publisher, name } = require('../package.json');
 const driverName = 'PostgreSQL/Cockroach';
 const AUTHENTICATION_PROVIDER = 'sqltools-driver-credentials';
 export async function activate(extContext: ExtensionContext): Promise<IDriverExtensionApi> {
-  const sqltools = extensions.getExtension<IExtension>('mtxr.sqltools');
+  const sqltools = extensions.getExtension<IExtension>('bshashikiran.vscode-datagrip');
   if (!sqltools) {
     throw new Error('SQLTools not installed');
   }

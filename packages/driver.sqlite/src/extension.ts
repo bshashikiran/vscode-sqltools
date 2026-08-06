@@ -7,7 +7,7 @@ import path from 'path';
 const driverName = 'SQLite';
 
 export async function activate(extContext: ExtensionContext): Promise<IDriverExtensionApi> {
-  const sqltools = extensions.getExtension<IExtension>('mtxr.sqltools');
+  const sqltools = extensions.getExtension<IExtension>('bshashikiran.vscode-datagrip');
   if (!sqltools) {
     throw new Error('SQLTools not installed');
   }

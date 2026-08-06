@@ -1,15 +1,14 @@
 {
-  "name": "sqltools",
-  "displayName": "SQLTools - Database tools",
+  "name": "vscode-datagrip",
+  "displayName": "VSCode DataGrip",
   "description": "Database management done right. Connection explorer, query runner, intellisense, bookmarks, query history. Feel like a database hero!",
   "version": "1.0.0",
-  "publisher": "mtxr",
-  "author": "Matheus Teixeira <me@mteixeira.dev>",
+  "publisher": "bshashikiran",
+  "author": "Shashi Kiran",
   "license": "MIT",
   "main": "./dist/extension.js",
-  "homepage": "https://vscode-sqltools.mteixeira.dev/",
   "repository": {
-    "url": "https://github.com/mtxr/vscode-sqltools.git",
+    "url": "https://github.com/bshashikiran/vscode-sqltools.git",
     "type": "git"
   },
   "engines": {
@@ -58,5 +57,6 @@
     "typescript": "~4.8.3",
     "@vscode/vsce": "^2.19.0",
     "ts-node": "^9.1.1"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

@@ -1,18 +1,18 @@
 {
-    "name": "sqltools",
-    "displayName": "SQLTools",
+    "name": "vscode-datagrip",
+    "displayName": "VSCode DataGrip",
     "description": "Connecting users to many of the most commonly used databases. Welcome to database management done right.",
     "version": "0.28.7-SNAPSHOT",
-    "publisher": "mtxr",
+    "publisher": "bshashikiran",
     "license": "MIT",
     "preview": false,
     "repository": {
-        "url": "https://github.com/mtxr/vscode-sqltools.git",
+        "url": "https://github.com/bshashikiran/vscode-sqltools.git",
         "type": "git"
     },
     "homepage": "https://vscode-sqltools.mteixeira.dev/?umd_source=marketplace&utm_medium=readme&utm_campaign=ext",
     "bugs": {
-        "url": "https://github.com/mtxr/vscode-sqltools/issues"
+        "url": "https://github.com/bshashikiran/vscode-sqltools/issues"
     },
     "main": "./dist/extension.js",
     "author": "Matheus Teixeira <me@mteixeira.dev>",
@@ -64,8 +64,8 @@
     "badges": [
         {
             "description": "LICENSE",
-            "url": "https://img.shields.io/github/license/mtxr/vscode-sqltools?style=for-the-badge",
-            "href": "https://github.com/mtxr/vscode-sqltools/blob/dev/LICENSE.md"
+            "url": "https://img.shields.io/github/license/bshashikiran/vscode-sqltools?style=for-the-badge",
+            "href": "https://github.com/bshashikiran/vscode-sqltools/blob/dev/LICENSE.md"
         }
     ],
     "activationEvents": [

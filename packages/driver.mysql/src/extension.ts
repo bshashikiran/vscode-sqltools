@@ -6,7 +6,7 @@ const AUTHENTICATION_PROVIDER = 'sqltools-driver-credentials';
 const { publisher, name } = require('../package.json');
 const driverName = 'MySQL/MariaDB/TiDB';
 export async function activate(extContext: vscode.ExtensionContext): Promise<IDriverExtensionApi> {
-  const sqltools = vscode.extensions.getExtension<IExtension>('mtxr.sqltools');
+  const sqltools = vscode.extensions.getExtension<IExtension>('bshashikiran.vscode-datagrip');
   if (!sqltools) {
     throw new Error('SQLTools not installed');
   }
