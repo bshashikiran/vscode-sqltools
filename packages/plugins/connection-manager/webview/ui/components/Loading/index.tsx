@@ -6,7 +6,6 @@ const Loading = () => (
     <div className={style.backdrop}>
       <div className={style.loaderContainer}>
         <div className={style.spinner} />
-        <div className={style.text}>Loading Results...</div>
       </div>
     </div>
   </div>

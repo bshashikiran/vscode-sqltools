@@ -96,9 +96,9 @@ class ResultsWebview extends WebviewProvider<ResultsScreenState> {
   updateResults = (payload: NSDatabase.IResult[]) => {
     this.title = `${DISPLAY_NAME} Console`;
     try {
-      const prefix = getNameFromId(payload[0].connId);
-      let suffix: string;
       if (payload && payload.length > 0) {
+        const prefix = getNameFromId(payload[0].connId);
+        let suffix: string;
         payload.forEach((result, index) => {
           if (!result.label) {
             const matches = [...result.query.matchAll(/^--\s*@label\s*(.+)$/gm)];
@@ -113,13 +113,34 @@ class ResultsWebview extends WebviewProvider<ResultsScreenState> {
           }
         });
         if (payload.length === 1) {
-          let truncatedQuery = payload[0].query.length > 16 ? `${payload[0].query.substring(0, 16)}...` : payload[0].query;
-          suffix = payload[0].label ? payload[0].label : truncatedQuery.replace(/(\r?\n\s*)/gim, ' ');
+          const getTableName = (q: string): string | null => {
+            const clean = q.replace(/(\r?\n\s*)/g, ' ').trim();
+            const patterns = [
+              /from\s+([a-zA-Z0-9_\.\`\"\[\]\:\-]+)/i,
+              /update\s+([a-zA-Z0-9_\.\`\"\[\]\:\-]+)/i,
+              /into\s+([a-zA-Z0-9_\.\`\"\[\]\:\-]+)/i,
+              /table\s+([a-zA-Z0-9_\.\`\"\[\]\:\-]+)/i
+            ];
+            for (const pattern of patterns) {
+              const match = clean.match(pattern);
+              if (match && match[1]) {
+                return match[1].replace(/[\`\"\[\]]/g, '').trim();
+              }
+            }
+            return null;
+          };
+
+          const rawQuery = payload[0].query || '';
+          const cleanQuery = rawQuery.replace(/(\r?\n\s*)/gim, ' ').trim();
+          const tableName = getTableName(rawQuery);
+          const shortSuffix = payload[0].label || tableName || (cleanQuery.length > 16 ? `${cleanQuery.substring(0, 16)}...` : cleanQuery);
+          
+          this.title = `${prefix}: ${shortSuffix}`;
         } else {
           suffix = suffix || 'multiple query results';
+          this.title = `${prefix}: ${suffix}`;
         }
       }
-      this.title = `${prefix}: ${suffix}`;
     } catch (error) { }
     this.updatePanelName();
     this.sendMessage(UIAction.RESPONSE_RESULTS, { resultTabs: payload, showConsole: Config.results.showConsoleOnError  && payload.some(p => !!p.error) });

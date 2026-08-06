@@ -25,6 +25,7 @@ const QueryTabs = () => {
             <Typography
               variant='inherit'
               noWrap
+              title={name}
               style={{
                 width: '100%',
                 textTransform: 'initial',

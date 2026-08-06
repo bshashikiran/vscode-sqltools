@@ -42,6 +42,7 @@ import { MenuProvider } from '../../context/MenuContext';
 import useCurrentResult from '../../hooks/useCurrentResult';
 import useContextAction from '../../hooks/useContextAction';
 import useResultsContext from '../../hooks/useResultsContext';
+import SqlSummary from '../SqlSummary';
 
 const Table = ({ setContextState }) => {
   const [filters, setFilters] = useState<(Filter & { regex?: RegExp })[]>([]);
@@ -310,7 +311,8 @@ const Table = ({ setContextState }) => {
       getOptions={getMenuOptions}
       onSelect={onMenuSelect}
     >
-      <Paper square elevation={0} className="result">
+      <Paper square elevation={0} className="result" style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
+        <SqlSummary />
         {toast && (
           <div className={`${style.toast} ${style[toast.type]}`}>
             {toast.message}
