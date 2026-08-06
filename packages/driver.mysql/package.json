@@ -2,7 +2,7 @@
   "name": "vscode-datagrip-driver-mysql",
   "displayName": "DataGrip MySQL/MariaDB/TiDB",
   "description": "DataGrip MySQL/MariaDB/TiDB",
-  "version": "0.6.8-SNAPSHOT",
+  "version": "0.0.1",
   "engines": {
     "vscode": "^1.78.0"
   },

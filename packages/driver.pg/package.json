@@ -2,7 +2,7 @@
   "name": "vscode-datagrip-driver-pg",
   "displayName": "DataGrip PostgreSQL/Cockroach Driver",
   "description": "DataGrip PostgreSQL/Cockroach Driver",
-  "version": "0.5.9-SNAPSHOT",
+  "version": "0.0.1",
   "engines": {
     "vscode": "^1.78.0"
   },

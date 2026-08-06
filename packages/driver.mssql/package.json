@@ -2,7 +2,7 @@
   "name": "vscode-datagrip-driver-mssql",
   "displayName": "DataGrip SQL Server",
   "description": "DataGrip SQL Server",
-  "version": "0.4.12-SNAPSHOT",
+  "version": "0.0.1",
   "engines": {
     "vscode": "^1.78.0"
   },
