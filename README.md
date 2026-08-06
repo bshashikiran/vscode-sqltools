@@ -31,4 +31,4 @@ To connect to your database, make sure to install your corresponding driver:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the MIT License.
