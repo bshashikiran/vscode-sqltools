@@ -2,21 +2,13 @@
   "name": "vscode-datagrip-driver-mssql",
   "displayName": "VSCode DataGrip SQL Server Connection Driver",
   "description": "SQL Server database connector for VSCode DataGrip.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.78.0"
   },
   "publisher": "bshashikiran",
   "license": "MIT",
   "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bshashikiran/vscode-sqltools.git",
-    "directory": "packages/drivers.mssql"
-  },
-  "bugs": {
-    "url": "https://github.com/bshashikiran/vscode-sqltools/issues"
-  },
   "keywords": [
     "sqltools-driver",
     "mssql",
@@ -27,7 +19,7 @@
     "theme": "light",
     "color": "#ffffff"
   },
-  "icon": "icon.png",
+  "icon": "icon.jpg",
   "categories": [
     "Programming Languages",
     "Snippets",

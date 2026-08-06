@@ -2,18 +2,11 @@
     "name": "vscode-datagrip",
     "displayName": "VSCode DataGrip",
     "description": "Connecting users to many of the most commonly used databases. Welcome to database management done right.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "bshashikiran",
     "license": "MIT",
     "preview": false,
-    "repository": {
-        "url": "https://github.com/bshashikiran/vscode-sqltools.git",
-        "type": "git"
-    },
     "homepage": "https://vscode-sqltools.mteixeira.dev/?umd_source=marketplace&utm_medium=readme&utm_campaign=ext",
-    "bugs": {
-        "url": "https://github.com/bshashikiran/vscode-sqltools/issues"
-    },
     "main": "./dist/extension.js",
     "author": "Matheus Teixeira <me@mteixeira.dev>",
     "private": true,
@@ -60,7 +53,7 @@
         "theme": "dark",
         "color": "#555555"
     },
-    "icon": "icons/icon-128.png",
+    "icon": "icons/icon-128.jpg",
     "badges": [
         {
             "description": "LICENSE",

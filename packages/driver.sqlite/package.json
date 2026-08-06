@@ -2,21 +2,13 @@
   "name": "vscode-datagrip-driver-sqlite",
   "displayName": "DataGrip SQLite",
   "description": "DataGrip SQLite",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.78.0"
   },
   "publisher": "bshashikiran",
   "license": "MIT",
   "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bshashikiran/vscode-sqltools.git",
-    "directory": "packages/drivers.sqlite"
-  },
-  "bugs": {
-    "url": "https://github.com/bshashikiran/vscode-sqltools/issues"
-  },
   "keywords": [
     "sqltools-driver",
     "sqlite"
@@ -25,7 +17,7 @@
     "theme": "light",
     "color": "#eaeaea"
   },
-  "icon": "icon.png",
+  "icon": "icon.jpg",
   "categories": [
     "Programming Languages",
     "Snippets",

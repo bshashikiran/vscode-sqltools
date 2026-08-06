@@ -2,21 +2,13 @@
   "name": "vscode-datagrip-driver-mysql",
   "displayName": "DataGrip MySQL/MariaDB/TiDB",
   "description": "DataGrip MySQL/MariaDB/TiDB",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.78.0"
   },
   "publisher": "bshashikiran",
   "license": "MIT",
   "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bshashikiran/vscode-sqltools.git",
-    "directory": "packages/drivers.mysql"
-  },
-  "bugs": {
-    "url": "https://github.com/bshashikiran/vscode-sqltools/issues"
-  },
   "keywords": [
     "sqltools-driver",
     "mysql",
@@ -27,7 +19,7 @@
     "theme": "light",
     "color": "#fafafa"
   },
-  "icon": "icon.png",
+  "icon": "icon.jpg",
   "categories": [
     "Programming Languages",
     "Snippets",

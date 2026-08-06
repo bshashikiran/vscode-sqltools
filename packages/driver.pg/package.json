@@ -2,21 +2,13 @@
   "name": "vscode-datagrip-driver-pg",
   "displayName": "VSCode DataGrip PostgreSQL Connection Driver",
   "description": "PostgreSQL database connector for VSCode DataGrip.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.78.0"
   },
   "publisher": "bshashikiran",
   "license": "MIT",
   "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bshashikiran/vscode-sqltools.git",
-    "directory": "packages/drivers.pg"
-  },
-  "bugs": {
-    "url": "https://github.com/bshashikiran/vscode-sqltools/issues"
-  },
   "keywords": [
     "sqltools-driver",
     "postgre",
@@ -29,7 +21,7 @@
     "theme": "dark",
     "color": "#333333"
   },
-  "icon": "icon.png",
+  "icon": "icon.jpg",
   "categories": [
     "Programming Languages",
     "Snippets",
