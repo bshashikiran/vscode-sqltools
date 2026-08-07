@@ -129,15 +129,6 @@ const Table = ({ setContextState }) => {
     return { ...originalRow, ...edits[resultId][idx] };
   }, [rows, edits, resultId]);
 
-  const editedRows = useMemo(() => {
-    if (!resultId || !edits[resultId]) return rows;
-    return rows.map((row, idx) => {
-      if (edits[resultId][idx]) {
-        return { ...row, ...edits[resultId][idx] };
-      }
-      return row;
-    });
-  }, [rows, edits, resultId]);
 
   const pendingEditsCount = useMemo(() => {
     if (!resultId || !edits[resultId]) return 0;

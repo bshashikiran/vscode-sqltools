@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "server": {
+      "title": "Contact Points (server host)",
+      "type": "string",
+      "minLength": 1,
+      "default": "127.0.0.1"
+    },
+    "port": {
+      "title": "Port",
+      "type": "number",
+      "default": 9042
+    },
+    "database": {
+      "title": "Keyspace (Optional)",
+      "type": "string"
+    },
+    "username": {
+      "title": "Username (Optional)",
+      "type": "string"
+    },
+    "password": {
+      "title": "Password (Optional)",
+      "type": "string"
+    },
+    "connectionTimeout": {
+      "title": "Connection Timeout (seconds, default: 5)",
+      "type": "number",
+      "default": 5
+    },
+    "localDataCenter": {
+      "title": "Local Data Center",
+      "type": "string"
+    }
+  },
+  "required": [
+    "server",
+    "port"
+  ]
+}

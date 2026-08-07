@@ -1,8 +1,8 @@
 {
-  "name": "vscode-datagrip-driver-sqlite",
-  "displayName": "VSCode DataGrip SQLite Driver",
-  "description": "VSCode DataGrip SQLite Driver",
-  "version": "0.0.6",
+  "name": "vscode-datagrip-driver-cassandra",
+  "displayName": "VSCode DataGrip Cassandra Driver",
+  "description": "VSCode DataGrip Cassandra Driver",
+  "version": "0.0.1",
   "engines": {
     "vscode": "^1.78.0"
   },
@@ -11,7 +11,7 @@
   "private": true,
   "keywords": [
     "sqltools-driver",
-    "sqlite"
+    "cassandra"
   ],
   "galleryBanner": {
     "theme": "light",
@@ -42,7 +42,7 @@
     "build": "cross-env NODE_ENV=production concurrently \"yarn run build:ext\" \"yarn run build:ls\"",
     "build:ext": "yarn run compile:ext --define:process.env.NODE_ENV=\"'production'\" --minify",
     "build:ls": "yarn run compile:ls --define:process.env.NODE_ENV=\"'production'\" --minify",
-    "esbuild": "esbuild --platform=node --tsconfig=./tsconfig.json --external:vscode --color=true --format=cjs --loader:.node=file",
+    "esbuild": "esbuild --platform=node --tsconfig=./tsconfig.json --external:vscode --external:cassandra-driver --external:cpu-features --color=true --format=cjs --loader:.node=file",
     "prepackage": "yarn run build",
     "package": "vsce package --yarn -o .",
     "compile:ext": "yarn run esbuild --bundle ./src/extension.ts --outfile=./out/extension.js --target=es2017 --define:process.env.PRODUCT=\"'ext'\"",
@@ -54,9 +54,11 @@
     "dev:tsc": "yarn run tsc-check -w",
     "ts": "tsc -p ."
   },
+  "dependencies": {
+    "cassandra-driver": "^4.7.2"
+  },
   "devDependencies": {
     "@sqltools/base-driver": "^0.2.2",
-    "@types/sqlite3": "^5.1.0",
     "@types/vscode": "^1.72.0",
     "concurrently": "^5.2.0",
     "cross-env": "^7.0.2",

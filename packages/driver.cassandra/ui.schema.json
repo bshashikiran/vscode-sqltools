@@ -1,0 +1,4 @@
+{
+  "ui:order": ["server", "port", "database", "localDataCenter", "username", "password", "connectionTimeout"],
+  "password": { "ui:widget": "password" }
+}

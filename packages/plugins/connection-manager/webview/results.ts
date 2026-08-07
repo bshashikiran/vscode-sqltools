@@ -68,9 +68,9 @@ class ResultsWebview extends WebviewProvider<ResultsScreenState> {
     if (!this.isOpen) {
       this.whereToShow = undefined;
       if (isNew) {
-        const existingOpenView = ResultsWebview.openViews.find(v => v !== this && v.isOpen && v.panel && v.panel.viewColumn !== undefined);
+        const existingOpenView = ResultsWebview.openViews.find(v => v !== this && v.isOpen && (v as any).panel && (v as any).panel.viewColumn !== undefined);
         if (existingOpenView) {
-          this.whereToShow = existingOpenView.panel.viewColumn;
+          this.whereToShow = (existingOpenView as any).panel.viewColumn;
         } else {
           if (splitDirection === 'down') {
             await vscode.commands.executeCommand('workbench.action.newGroupBelow');
