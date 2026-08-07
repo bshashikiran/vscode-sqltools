@@ -1,30 +1,20 @@
-import * as CassandraLib from 'cassandra-driver';
+import { Client, auth, ClientOptions } from 'cassandra-driver';
 import AbstractDriver from '@sqltools/base-driver';
 import queries from './queries';
 import { IConnectionDriver, MConnectionExplorer, NSDatabase, ContextValue, Arg0 } from '@sqltools/types';
 import { parse as queryParse } from '@sqltools/util/query';
 import generateId from '@sqltools/util/internal-id';
 
-export default class Cassandra extends AbstractDriver<CassandraLib.Client, CassandraLib.ClientOptions> implements IConnectionDriver {
-
-  public readonly deps: typeof AbstractDriver.prototype['deps'] = [{
-    type: AbstractDriver.CONSTANTS.DEPENDENCY_PACKAGE,
-    name: 'cassandra-driver',
-    version: '4.7.2',
-  }];
+export default class Cassandra extends AbstractDriver<Client, ClientOptions> implements IConnectionDriver {
 
   queries = queries;
-
-  private get lib() {
-    return this.requireDep('cassandra-driver') as typeof CassandraLib;
-  }
 
   public async open() {
     if (this.connection) {
       return this.connection;
     }
 
-    const clientOptions: CassandraLib.ClientOptions = {
+    const clientOptions: ClientOptions = {
       contactPoints: [this.credentials.server],
       keyspace: this.credentials.database ? this.credentials.database : undefined,
       protocolOptions: {
@@ -40,13 +30,13 @@ export default class Cassandra extends AbstractDriver<CassandraLib.Client, Cassa
     }
 
     if (this.credentials.username && this.credentials.password) {
-      clientOptions.authProvider = new (this.lib).auth.PlainTextAuthProvider(
+      clientOptions.authProvider = new auth.PlainTextAuthProvider(
         this.credentials.username,
         this.credentials.password
       );
     }
 
-    const client = new (this.lib).Client(clientOptions);
+    const client = new Client(clientOptions);
     await client.connect();
 
     this.connection = Promise.resolve(client);

@@ -916,7 +916,7 @@
                 },
                 "sqltools.disableNodeDetectNotifications": {
                     "type": "boolean",
-                    "default": false,
+                    "default": true,
                     "description": "Disable node runtime detection notifications."
                 },
                 "sqltools.languageServerEnv": {
