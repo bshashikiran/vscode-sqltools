@@ -11,12 +11,15 @@ class ResultsWebview extends WebviewProvider<ResultsScreenState> {
   protected id: string = 'Results';
   protected title: string = `${DISPLAY_NAME} Results`;
   protected isOpen = false;
+  private static openViews: ResultsWebview[] = [];
 
   constructor(public requestId: string, private syncConsoleMessages: ((messages: NSDatabase.IResult['messages']) => void)) {
     super();
+    ResultsWebview.openViews.push(this);
 
     this.onDidDispose(() => {
       this.isOpen = false;
+      ResultsWebview.openViews = ResultsWebview.openViews.filter(v => v !== this);
     });
   }
 
@@ -34,7 +37,7 @@ class ResultsWebview extends WebviewProvider<ResultsScreenState> {
     if (!active) {
       this.syncConsoleMessages(['Not focused to results view']);
       return;
-    };
+    }
     try {
       const state = await this.getState();
       this.syncConsoleMessages(state.resultTabs[state.activeTab].messages);
@@ -48,7 +51,7 @@ class ResultsWebview extends WebviewProvider<ResultsScreenState> {
     return Config.results.customization;
   }
 
-  show() {
+  async show() {
     const isNew = !this.isOpen;
     const activeEditor = vscode.window.activeTextEditor;
 
@@ -64,46 +67,56 @@ class ResultsWebview extends WebviewProvider<ResultsScreenState> {
 
     if (!this.isOpen) {
       this.whereToShow = undefined;
-      switch (locationSetting) {
-        case 'none': 
-          break;
-        case 'active': // fallback older version
-        case 'current':
-          this.whereToShow = vscode.ViewColumn.Active;
-          break;
-        case 'end':
-          this.whereToShow = vscode.ViewColumn.Three;
-          break;
-        case 'beside': // fallback
-        default:
-          if (!vscode.window.activeTextEditor) {
-            this.whereToShow = vscode.ViewColumn.One;
-          } else if (typeof locationSetting === 'number' && locationSetting >= -1 && locationSetting <= 9 && locationSetting !== 0) {
-            this.whereToShow = locationSetting;
-          } else if (vscode.window.activeTextEditor.viewColumn === vscode.ViewColumn.One) {
-            this.whereToShow = vscode.ViewColumn.Two;
-          } else {
-            this.whereToShow = vscode.ViewColumn.Three;
+      if (isNew) {
+        const existingOpenView = ResultsWebview.openViews.find(v => v !== this && v.isOpen && v.panel && v.panel.viewColumn !== undefined);
+        if (existingOpenView) {
+          this.whereToShow = existingOpenView.panel.viewColumn;
+        } else {
+          if (splitDirection === 'down') {
+            await vscode.commands.executeCommand('workbench.action.newGroupBelow');
+            this.whereToShow = vscode.ViewColumn.Active;
+          } else if (splitDirection === 'right') {
+            await vscode.commands.executeCommand('workbench.action.newGroupRight');
+            this.whereToShow = vscode.ViewColumn.Active;
           }
-          break;
+        }
+      }
+
+      if (this.whereToShow === undefined) {
+        switch (locationSetting) {
+          case 'none': 
+            break;
+          case 'active': // fallback older version
+          case 'current':
+            this.whereToShow = vscode.ViewColumn.Active;
+            break;
+          case 'end':
+            this.whereToShow = vscode.ViewColumn.Three;
+            break;
+          case 'beside': // fallback
+          default:
+            if (!vscode.window.activeTextEditor) {
+              this.whereToShow = vscode.ViewColumn.One;
+            } else if (typeof locationSetting === 'number' && locationSetting >= -1 && locationSetting <= 9 && locationSetting !== 0) {
+              this.whereToShow = locationSetting;
+            } else if (vscode.window.activeTextEditor.viewColumn === vscode.ViewColumn.One) {
+              this.whereToShow = vscode.ViewColumn.Two;
+            } else {
+              this.whereToShow = vscode.ViewColumn.Three;
+            }
+            break;
+        }
       }
     }
 
     super.show();
 
     if (isNew && splitDirection && splitDirection !== 'default') {
-      setTimeout(() => {
-        if (splitDirection === 'right') {
-          vscode.commands.executeCommand('workbench.action.moveEditorToRightGroup');
-        } else if (splitDirection === 'down') {
-          vscode.commands.executeCommand('workbench.action.moveEditorToBelowGroup');
-        }
-        if (activeEditor) {
-          setTimeout(() => {
-            vscode.window.showTextDocument(activeEditor.document, activeEditor.viewColumn, false);
-          }, 100);
-        }
-      }, 200);
+      if (activeEditor) {
+        setTimeout(() => {
+          vscode.window.showTextDocument(activeEditor.document, activeEditor.viewColumn, false);
+        }, 100);
+      }
     }
 
     return new Promise<void>((resolve, reject) => {
