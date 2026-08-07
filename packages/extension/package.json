@@ -2,7 +2,7 @@
     "name": "vscode-datagrip",
     "displayName": "VSCode DataGrip",
     "description": "Connecting users to many of the most commonly used databases. Welcome to database management done right.",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "publisher": "bshashikiran",
     "license": "MIT",
     "preview": false,

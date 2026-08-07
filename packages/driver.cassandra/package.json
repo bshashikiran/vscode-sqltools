@@ -2,7 +2,7 @@
   "name": "vscode-datagrip-driver-cassandra",
   "displayName": "VSCode DataGrip Cassandra Driver",
   "description": "VSCode DataGrip Cassandra Driver",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.78.0"
   },
