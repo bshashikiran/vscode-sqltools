@@ -2,7 +2,7 @@
   "name": "vscode-datagrip-driver-pg",
   "displayName": "VSCode DataGrip PostgreSQL Driver",
   "description": "VSCode DataGrip PostgreSQL Driver",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "vscode": "^1.78.0"
   },
@@ -46,7 +46,7 @@
     "build": "cross-env NODE_ENV=production concurrently \"yarn run build:ext\" \"yarn run build:ls\"",
     "build:ext": "yarn run compile:ext --define:process.env.NODE_ENV=\"'production'\" --minify",
     "build:ls": "yarn run compile:ls --define:process.env.NODE_ENV=\"'production'\" --minify",
-    "esbuild": "esbuild --platform=node --tsconfig=./tsconfig.json --external:vscode --external:pg-native --color=true --format=cjs --loader:.node=file",
+    "esbuild": "esbuild --platform=node --tsconfig=./tsconfig.json --external:vscode --external:pg-native --external:cpu-features --color=true --format=cjs --loader:.node=file",
     "prepackage": "yarn run build",
     "package": "vsce package --yarn -o .",
     "compile:ext": "yarn run esbuild --bundle ./src/extension.ts --outfile=./out/extension.js --target=es2017 --define:process.env.PRODUCT=\"'ext'\"",
