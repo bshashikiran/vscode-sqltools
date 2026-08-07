@@ -2,7 +2,7 @@
   "name": "vscode-datagrip-driver-sqlite",
   "displayName": "DataGrip SQLite",
   "description": "DataGrip SQLite",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "engines": {
     "vscode": "^1.78.0"
   },

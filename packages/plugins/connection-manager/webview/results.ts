@@ -52,7 +52,11 @@ class ResultsWebview extends WebviewProvider<ResultsScreenState> {
     const isNew = !this.isOpen;
     const activeEditor = vscode.window.activeTextEditor;
 
-    if (isNew && Config.results.splitDirection && Config.results.splitDirection !== 'default') {
+    const resultsConfig = vscode.workspace.getConfiguration('sqltools.results');
+    const splitDirection = resultsConfig.get<string>('splitDirection', 'default');
+    const locationSetting = resultsConfig.get<any>('location', 'next');
+
+    if (isNew && splitDirection && splitDirection !== 'default') {
       this.preserveFocus = false;
     } else {
       this.preserveFocus = true;
@@ -60,7 +64,7 @@ class ResultsWebview extends WebviewProvider<ResultsScreenState> {
 
     if (!this.isOpen) {
       this.whereToShow = undefined;
-      switch (Config.results.location) {
+      switch (locationSetting) {
         case 'none': 
           break;
         case 'active': // fallback older version
@@ -74,8 +78,8 @@ class ResultsWebview extends WebviewProvider<ResultsScreenState> {
         default:
           if (!vscode.window.activeTextEditor) {
             this.whereToShow = vscode.ViewColumn.One;
-          } else if (Config.results && typeof Config.results.location === 'number' && Config.results.location >= -1 && Config.results.location <= 9 && Config.results.location !== 0) {
-            this.whereToShow = Config.results.location;
+          } else if (typeof locationSetting === 'number' && locationSetting >= -1 && locationSetting <= 9 && locationSetting !== 0) {
+            this.whereToShow = locationSetting;
           } else if (vscode.window.activeTextEditor.viewColumn === vscode.ViewColumn.One) {
             this.whereToShow = vscode.ViewColumn.Two;
           } else {
@@ -87,11 +91,11 @@ class ResultsWebview extends WebviewProvider<ResultsScreenState> {
 
     super.show();
 
-    if (isNew && Config.results.splitDirection && Config.results.splitDirection !== 'default') {
+    if (isNew && splitDirection && splitDirection !== 'default') {
       setTimeout(() => {
-        if (Config.results.splitDirection === 'right') {
+        if (splitDirection === 'right') {
           vscode.commands.executeCommand('workbench.action.moveEditorToRightGroup');
-        } else if (Config.results.splitDirection === 'down') {
+        } else if (splitDirection === 'down') {
           vscode.commands.executeCommand('workbench.action.moveEditorToBelowGroup');
         }
         if (activeEditor) {
@@ -167,7 +171,8 @@ class ResultsWebview extends WebviewProvider<ResultsScreenState> {
       }
     } catch (error) { }
     this.updatePanelName();
-    this.sendMessage(UIAction.RESPONSE_RESULTS, { resultTabs: payload, showConsole: Config.results.showConsoleOnError  && payload.some(p => !!p.error) });
+    const showConsoleOnError = vscode.workspace.getConfiguration('sqltools.results').get<boolean>('showConsoleOnError', true);
+    this.sendMessage(UIAction.RESPONSE_RESULTS, { resultTabs: payload, showConsole: showConsoleOnError  && payload.some(p => !!p.error) });
   }
 
   whereToShow = vscode.ViewColumn.Active;

@@ -2,7 +2,7 @@
   "name": "vscode-datagrip-driver-mssql",
   "displayName": "VSCode DataGrip SQL Server Connection Driver",
   "description": "SQL Server database connector for VSCode DataGrip.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "engines": {
     "vscode": "^1.78.0"
   },
