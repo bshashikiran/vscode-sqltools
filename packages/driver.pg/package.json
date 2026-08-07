@@ -2,7 +2,7 @@
   "name": "vscode-datagrip-driver-pg",
   "displayName": "VSCode DataGrip PostgreSQL Connection Driver",
   "description": "PostgreSQL database connector for VSCode DataGrip.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "vscode": "^1.78.0"
   },
