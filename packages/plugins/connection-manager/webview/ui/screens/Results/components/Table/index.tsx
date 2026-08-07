@@ -45,10 +45,30 @@ import useResultsContext from '../../hooks/useResultsContext';
 import SqlSummary from '../SqlSummary';
 import FooterActions from '../FooterActions';
 
-const QuerySuccess = ({ messages }: { messages: any[] }) => {
-  const messageText = messages && messages.length 
-    ? messages.map(m => (m as any).message || m.toString()).join('\n')
-    : 'Query executed successfully.';
+const compareNumericOrString = (a: any, b: any) => {
+  if (a === b) return 0;
+  const aValid = a !== null && a !== undefined && a !== '';
+  const bValid = b !== null && b !== undefined && b !== '';
+  if (!aValid && !bValid) return 0;
+  if (!aValid) return 1;
+  if (!bValid) return -1;
+
+  const numA = Number(a);
+  const numB = Number(b);
+  if (!isNaN(numA) && !isNaN(numB)) {
+    return numA - numB;
+  }
+  return String(a).localeCompare(String(b), undefined, { numeric: true, sensitivity: 'base' });
+};
+
+const QuerySuccess = ({ messages, colsCount }: { messages: any[], colsCount: number }) => {
+  const isSelectEmpty = colsCount > 0;
+  
+  const messageText = isSelectEmpty
+    ? 'No results found.'
+    : (messages && messages.length 
+        ? messages.map(m => (m as any).message || m.toString()).join('\n')
+        : 'Query executed successfully.');
 
   return (
     <div style={{
@@ -70,9 +90,17 @@ const QuerySuccess = ({ messages }: { messages: any[] }) => {
         flexDirection: 'column',
         textAlign: 'center'
       }}>
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--vscode-charts-green, #4caf50)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '16px', flexShrink: 0 }}>
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
+        {isSelectEmpty ? (
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--vscode-descriptionForeground, #858585)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '16px', flexShrink: 0 }}>
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+        ) : (
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--vscode-charts-green, #4caf50)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: '16px', flexShrink: 0 }}>
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        )}
         <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.4', fontWeight: 500 }}>
           {messageText}
         </div>
@@ -89,6 +117,17 @@ const Table = ({ setContextState }) => {
   const { result } = useCurrentResult();
   const { edits, saving, setSaving, toast, setToast } = useResultsContext();
   const { results: rows = [], cols = [], error, messages = [], page, pageSize, total, queryType, queryParams, requestId, resultId, tableName, primaryKeys, connId } = result || {};
+
+  const sortingExtensions = useMemo(() => cols.map(columnName => ({
+    columnName,
+    compare: compareNumericOrString
+  })), [cols]);
+
+  const getRowData = useCallback((idx: number) => {
+    const originalRow = rows[idx];
+    if (!originalRow || !resultId || !edits[resultId]?.[idx]) return originalRow;
+    return { ...originalRow, ...edits[resultId][idx] };
+  }, [rows, edits, resultId]);
 
   const editedRows = useMemo(() => {
     if (!resultId || !edits[resultId]) return rows;
@@ -224,9 +263,9 @@ const Table = ({ setContextState }) => {
 
   const onMenuSelect = useCallback((choice: string, { rowindex, colname }) => {
     rowindex = Number(rowindex);
-    let selectedRows: any[] | any = selection.map(index => rows[index]);
+    let selectedRows: any[] | any = selection.map(index => getRowData(index as number));
     selectedRows = selectedRows.length === 1 ? selectedRows[0] : selectedRows;
-    const cellValue = (rows[rowindex] ?? {})[colname];
+    const cellValue = (getRowData(rowindex) ?? {})[colname];
     switch (choice) {
       case MenuActions.FilterByValueOption:
         const newFilters = [...filters];
@@ -257,11 +296,11 @@ const Table = ({ setContextState }) => {
       case MenuActions.SaveJSONOption:
         return menuActions[choice](choice);
     }
-  }, [JSON.stringify(selection), JSON.stringify(filters), rows, rows.length]);
+  }, [JSON.stringify(selection), JSON.stringify(filters), getRowData]);
 
   const getMenuOptions = useCallback(({ colname, rowindex }) => {
     rowindex = Number(rowindex);
-    const row = rows[rowindex];
+    const row = getRowData(rowindex);
     const cellOptions = [];
     const filterOptions = [];
     const queryOptions = [MenuActions.ReRunQueryOption];
@@ -328,7 +367,7 @@ const Table = ({ setContextState }) => {
       options.pop()
     }
     return options;
-  }, [JSON.stringify(selection), JSON.stringify(filters), rows, rows.length]);
+  }, [JSON.stringify(selection), JSON.stringify(filters), getRowData]);
 
   let pagingProps: PagingStateProps = {};
   if (typeof page === 'number') {
@@ -357,12 +396,12 @@ const Table = ({ setContextState }) => {
           </div>
         )}
         {error && <QueryError messages={messages} />}
-        {!error && (rows.length === 0 || cols.length === 0) && <QuerySuccess messages={messages} />}
+        {!error && (rows.length === 0 || cols.length === 0) && <QuerySuccess messages={messages} colsCount={cols.length} />}
         {!error && rows.length > 0 && cols.length > 0 && (
-          <Grid rows={editedRows} columns={columnObjNames} rootComponent={GridRoot}>
+          <Grid rows={rows} columns={columnObjNames} rootComponent={GridRoot}>
             <DataTypeProvider for={columnNames} availableFilterOperations={availableFilterOperations} />
             <SortingState />
-            <IntegratedSorting />
+            <IntegratedSorting columnExtensions={sortingExtensions} />
             <FilteringState filters={filters} onFiltersChange={changeFilters} />
             <IntegratedFiltering columnExtensions={columnExtensions} />
             <PagingState pageSize={pageSize ?? 50} {...pagingProps} />

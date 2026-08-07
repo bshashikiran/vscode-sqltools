@@ -65,7 +65,7 @@ export default abstract class WebviewProvider<State = any> implements Disposable
         this.title,
         {
           viewColumn: this.whereToShow,
-          preserveFocus: true,
+          preserveFocus: this.preserveFocus,
         },
         {
           enableScripts: true,

@@ -2,8 +2,12 @@
 
 A lightweight, powerful database explorer for Visual Studio Code. 
 
-> [!NOTE]
 > **VSCode DataGrip** is a custom fork of the open-source [SQLTools](https://github.com/mtxr/vscode-sqltools) extension. It is enhanced with inline spreadsheet-like cell editing, direct database write-backs, and update-script generation.
+> 
+> **Configuration & Settings Compatibility**: All configurations and settings are fully compatible and run under the standard `sqltools` settings prefix. If you have already configured connection profiles or settings for SQLTools, they will work with this extension seamlessly out of the box using your same configurations.
+> 
+> ⚠️ **IMPORTANT: Avoid Duplicates**
+> Do not keep both **SQLTools** and **VSCode DataGrip** active at the same time. Since both extensions share the same UI views, having both enabled will cause duplicate sidebar icons, connection list views, and action buttons in your extension menu. Please disable or uninstall the official SQLTools extension to avoid duplicate interface elements.
 
 ---
 

@@ -49,6 +49,15 @@ class ResultsWebview extends WebviewProvider<ResultsScreenState> {
   }
 
   show() {
+    const isNew = !this.isOpen;
+    const activeEditor = vscode.window.activeTextEditor;
+
+    if (isNew && Config.results.splitDirection && Config.results.splitDirection !== 'default') {
+      this.preserveFocus = false;
+    } else {
+      this.preserveFocus = true;
+    }
+
     if (!this.isOpen) {
       this.whereToShow = undefined;
       switch (Config.results.location) {
@@ -77,6 +86,21 @@ class ResultsWebview extends WebviewProvider<ResultsScreenState> {
     }
 
     super.show();
+
+    if (isNew && Config.results.splitDirection && Config.results.splitDirection !== 'default') {
+      setTimeout(() => {
+        if (Config.results.splitDirection === 'right') {
+          vscode.commands.executeCommand('workbench.action.moveEditorToRightGroup');
+        } else if (Config.results.splitDirection === 'down') {
+          vscode.commands.executeCommand('workbench.action.moveEditorToBelowGroup');
+        }
+        if (activeEditor) {
+          setTimeout(() => {
+            vscode.window.showTextDocument(activeEditor.document, activeEditor.viewColumn, false);
+          }, 100);
+        }
+      }, 200);
+    }
 
     return new Promise<void>((resolve, reject) => {
       let count = 0;

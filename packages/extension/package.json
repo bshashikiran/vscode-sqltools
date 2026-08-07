@@ -6,9 +6,7 @@
     "publisher": "bshashikiran",
     "license": "MIT",
     "preview": false,
-    "homepage": "https://vscode-sqltools.mteixeira.dev/?umd_source=marketplace&utm_medium=readme&utm_campaign=ext",
     "main": "./dist/extension.js",
-    "author": "Matheus Teixeira <me@mteixeira.dev>",
     "private": true,
     "engines": {
         "vscode": "^1.78.0"
@@ -812,6 +810,21 @@
                         "Ninth group."
                     ],
                     "markdownDescription": "Define which edit group the results tab should appear in. Empty groups are never created. For example, if setting is 4 but only one group currently exists then the first set of results will create a new group 2, the second a group 3 and the third and subsequent sets of results will appear in group 4."
+                },
+                "sqltools.results.splitDirection": {
+                    "type": "string",
+                    "default": "default",
+                    "enum": [
+                        "default",
+                        "right",
+                        "down"
+                    ],
+                    "enumDescriptions": [
+                        "Respect the global workbench split editor direction workbench.editor.openSideBySideDirection.",
+                        "Force the results view editor to split to the right.",
+                        "Force the results view editor to split below (down)."
+                    ],
+                    "description": "Specify the split layout direction for query results. Forces splitting to the right or below regardless of global workbench configurations."
                 },
                 "sqltools.results.customization": {
                     "type": "object",

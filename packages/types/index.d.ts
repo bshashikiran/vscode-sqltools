@@ -645,6 +645,7 @@ export interface IResultsOptions {
     'font-size'?: string;
     'table-cell-padding'?: string;
   };
+  splitDirection?: 'default' | 'right' | 'down';
 }
 
 export interface ICSVExportOptions {
