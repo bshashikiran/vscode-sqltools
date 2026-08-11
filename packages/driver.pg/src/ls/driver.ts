@@ -195,7 +195,8 @@ export default class PostgreSQL extends AbstractDriver<Pool, PoolConfig> impleme
         const setClauses = setCols.map(c => `"${c}" = $${paramIndex++}`).join(', ');
         const whereClauses = whereCols.map(c => `"${c}" = $${paramIndex++}`).join(' AND ');
         
-        const sql = `UPDATE "${tableName}" SET ${setClauses} WHERE ${whereClauses}`;
+        const tableIdentifier = tableName.split('.').map(part => `"${part.replace(/"/g, '')}"`).join('.');
+        const sql = `UPDATE ${tableIdentifier} SET ${setClauses} WHERE ${whereClauses}`;
         const params = [...setCols.map(c => edit.modified[c]), ...whereCols.map(c => edit.keys[c])];
         
         const res = await cli.query(sql, params);

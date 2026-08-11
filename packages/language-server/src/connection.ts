@@ -99,6 +99,31 @@ export default class Connection {
     return match[1].replace(/[\"\`\[\]]/g, '').trim();
   }
 
+  private async getCurrentDatabaseAndSchema(): Promise<{ database?: string; schema?: string }> {
+    try {
+      if (this.credentials.driver === 'MySQL') {
+        const res = await this.conn.query('SELECT DATABASE() AS "database"', {}).catch(() => []);
+        const db = res[0]?.results?.[0]?.database || '';
+        return { database: db, schema: db };
+      }
+      if (this.credentials.driver === 'PostgreSQL') {
+        const res = await this.conn.query('SELECT current_database() AS "database", current_schema() AS "schema"', {}).catch(() => []);
+        return {
+          database: res[0]?.results?.[0]?.database || '',
+          schema: res[0]?.results?.[0]?.schema || ''
+        };
+      }
+      if (this.credentials.driver === 'MSSQL') {
+        const res = await this.conn.query('SELECT DB_NAME() AS "database", SCHEMA_NAME() AS "schema"', {}).catch(() => []);
+        return {
+          database: res[0]?.results?.[0]?.database || '',
+          schema: res[0]?.results?.[0]?.schema || ''
+        };
+      }
+    } catch (e) {}
+    return {};
+  }
+
   private async getPrimaryKeys(tableName: string): Promise<string[]> {
     try {
       let label = tableName;
@@ -231,8 +256,13 @@ export default class Connection {
         'table'
       ].join(' ');
       
-      const primaryKeys = await this.getPrimaryKeys(table.label);
-      records.tableName = table.label;
+      let tableName = table.label;
+      const schema = table.schema || table.database;
+      if (schema && !tableName.includes('.')) {
+        tableName = `${schema}.${tableName}`;
+      }
+      const primaryKeys = await this.getPrimaryKeys(tableName);
+      records.tableName = tableName;
       records.primaryKeys = primaryKeys;
       records.isEditable = primaryKeys.length > 0;
       records.queryType = 'showRecords';
@@ -270,8 +300,15 @@ export default class Connection {
     for (const res of results) {
       if (res.error) continue;
       
-      const tableName = res.queryType === 'showRecords' ? res.queryParams?.label : this.extractTableNameFromQuery(res.query);
+      let tableName = res.queryType === 'showRecords' ? res.queryParams?.label : this.extractTableNameFromQuery(res.query);
       if (tableName) {
+        if (!tableName.includes('.')) {
+          const currentContext = await this.getCurrentDatabaseAndSchema();
+          const schema = currentContext.schema || currentContext.database;
+          if (schema) {
+            tableName = `${schema}.${tableName}`;
+          }
+        }
         const primaryKeys = await this.getPrimaryKeys(tableName);
         res.tableName = tableName;
         res.primaryKeys = primaryKeys;

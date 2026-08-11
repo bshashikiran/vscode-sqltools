@@ -109,7 +109,8 @@ export default class SQLite extends AbstractDriver<SQLiteLib.Database, any> impl
       if (setCols.length === 0) continue;
       const whereCols = Object.keys(edit.keys);
       
-      const sql = `UPDATE "${tableName}" SET ${setCols.map(c => `"${c}" = ?`).join(', ')} WHERE ${whereCols.map(c => `"${c}" = ?`).join(' AND ')}`;
+      const tableIdentifier = tableName.split('.').map(part => `"${part.replace(/"/g, '')}"`).join('.');
+      const sql = `UPDATE ${tableIdentifier} SET ${setCols.map(c => `"${c}" = ?`).join(', ')} WHERE ${whereCols.map(c => `"${c}" = ?`).join(' AND ')}`;
       const params = [...setCols.map(c => edit.modified[c]), ...whereCols.map(c => edit.keys[c])];
       
       await new Promise<void>((resolve, reject) => {
