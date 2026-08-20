@@ -140,8 +140,8 @@ const FooterActions = () => {
   return (
     <>
       <div className={styles.left}>
-        <Button onClick={openMessagesConsole}>Console</Button>
         <Button onClick={reRunQuery}>Re-Run Query</Button>
+        <Button onClick={openMessagesConsole}>Console</Button>
         <Button onClick={exportResults}>Export</Button>
         <Button onClick={openResults}>Open</Button>
         

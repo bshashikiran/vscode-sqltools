@@ -300,6 +300,21 @@ export function activate(ctx: ExtensionContext) {
   try {
     Context.set(ctx);
     if (instance) return;
+
+    // Register serializers synchronously to immediately dispose of restored blank panels on startup
+    ctx.subscriptions.push(
+      window.registerWebviewPanelSerializer('Results', {
+        async deserializeWebviewPanel(webviewPanel: any) {
+          webviewPanel.dispose();
+        }
+      }),
+      window.registerWebviewPanelSerializer('Settings', {
+        async deserializeWebviewPanel(webviewPanel: any) {
+          webviewPanel.dispose();
+        }
+      })
+    );
+
     migrateFilesToNewPaths();
     instance = new SQLToolsExtension();
     instance.registerPlugin([

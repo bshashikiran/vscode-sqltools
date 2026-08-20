@@ -400,7 +400,8 @@ export default class Connection {
   }
 
   public searchItems(itemType: ContextValue, search: string = '', extraParams = {}) {
-    return this.conn.searchItems(itemType, search, extraParams);
+    const cleanSearch = search ? search.trim().replace(/\s+/g, '%') : '';
+    return this.conn.searchItems(itemType, cleanSearch, extraParams);
   }
 
   public getStaticCompletions: IConnectionDriver['getStaticCompletions'] = () => {

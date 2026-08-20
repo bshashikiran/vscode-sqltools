@@ -87,7 +87,15 @@ export async function quickPickSearch<T = any>(
         const thenFn = (options: any[]) => {
           qPick.busy = false;
           qPick.items = options.length > 0 && typeof options[0] === 'object'
-            ? <QuickPickItem[]>options.map(o => ({ ...o, value: o, label: o.value || o.label }))
+            ? <QuickPickItem[]>options.map(o => {
+                const spaceLabel = o.label ? o.label.replace(/_/g, ' ') : '';
+                return {
+                  ...o,
+                  value: o,
+                  label: o.value || o.label,
+                  detail: o.detail ? `${o.detail} (${spaceLabel})` : spaceLabel
+                };
+              })
             : options.map<QuickPickItem>(value => ({ value, label: value.toString() }));
           qPick.title = `${qPickOptions.title || 'Items'} (${qPick.items.length})`;
         };
